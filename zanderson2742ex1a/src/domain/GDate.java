@@ -1,5 +1,5 @@
 package domain;
 
 public class GDate {
-    //take 1
+    //take one
 }
