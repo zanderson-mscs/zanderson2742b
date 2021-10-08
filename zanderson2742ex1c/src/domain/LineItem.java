@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class LineItem {
@@ -7,6 +8,8 @@ public class LineItem {
     private int lineItemId;
     private double amount;
     private String description;
+    private ArrayList<LineItem> lineItems = new ArrayList<LineItem>();
+
 
     /**
      *
