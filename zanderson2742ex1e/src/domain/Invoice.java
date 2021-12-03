@@ -157,10 +157,10 @@ public class Invoice {
         return Objects.hash(getInvoiceId(), getStatus(), getInvoiceDate(), getDueDate());
     }
 
-    private void setStatus() {
-    }
+//    public void setStatus() {
+//    }
 
-    private Apartment getApartment() {
+    public Apartment getApartment() {
         return this.apartment;
     }
 

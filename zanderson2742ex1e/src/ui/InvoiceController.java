@@ -29,7 +29,7 @@ public class InvoiceController {
 
 
     @FXML
-    private ComboBox invoicesComboBox;
+    private ComboBox<Invoice> invoicesComboBox;
     @FXML
     private TextField descriptionTextField;
     @FXML
@@ -121,7 +121,7 @@ public class InvoiceController {
 //            invoicesComboBox.getItems().add(invoice.toShortString());
 //        }
         for( Invoice invoice : this.invoices){
-            invoicesComboBox.getItems().add(invoice.toShortString());
+            invoicesComboBox.getItems().add(invoice);
         }
 //        invoice = this.invoices.get(1);
 //        invoicesComboBox.getItems().add(invoice.toShortString());
@@ -204,7 +204,7 @@ public class InvoiceController {
         date = LocalDate.parse(this.dueDateTextField.getText(), formatter);
         invoice.setDueDate(date.atStartOfDay());
         invoicesComboBox.getItems().remove(index);
-        invoicesComboBox.getItems().add(invoice.toShortString());
+        invoicesComboBox.getItems().add(invoice);
         invoicesComboBox.getSelectionModel().select(index);
     }
 

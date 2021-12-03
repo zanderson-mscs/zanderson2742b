@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -24,30 +25,31 @@ public class ApartmentController {
  //   private ArrayList<Person> people = new ArrayList<Person>();
 
     public ApartmentController() {
-        this.apartments = DbContext.getApartments();
-        this.people = DbContext.getPeople();
+//        this.apartments = DbContext.getApartments();
+//        this.people = DbContext.getPeople();
     }
 
     @FXML
     protected void initialize(){
-
+        ArrayList<Apartment> apartments = DbContext.getApartments();
 
 //        Invoice invoice = this.invoices.get(0);
 
 //        for (int i = 0; i <= invoices.size(); i++){
 //            invoicesComboBox.getItems().add(invoice.toShortString());
 //        }
-        for( Apartment apartment : this.apartments){
+        for( Apartment apartment : apartments){
             aptComboBox.getItems().add(apartment);
         }
+        this.aptComboBox.getSelectionModel().selectFirst();
 //        invoice = this.invoices.get(1);
 //        invoicesComboBox.getItems().add(invoice.toShortString());
 //        invoice = this.invoices.get(2);
 //        invoicesComboBox.getItems().add(invoice.toShortString());
-        aptComboBox.getSelectionModel().selectFirst();
 
 
-        Apartment apt = this.apartments.get(0);
+
+//        Apartment apt = this.apartments.get(0);
 
 //        this.displayLineItems(apartment);
 
@@ -59,7 +61,7 @@ public class ApartmentController {
             adminComboBox.getItems().add(person);
         }
 
-        this.displayApartments(apt);
+        this.displayApartments(this.aptComboBox.getSelectionModel().getSelectedItem());
     }
 
     ArrayList<Person> people = new ArrayList<Person>();
@@ -130,8 +132,8 @@ public class ApartmentController {
 
     @FXML
     private void saveAptBtn_Clicked(ActionEvent actionEvent) {
-        int aptIndex = this.aptComboBox.getSelectionModel().getSelectedIndex();
-        Apartment apartment = this.apartments.get(aptIndex);
+        Apartment apartment = this.aptComboBox.getSelectionModel().getSelectedItem();
+
 
         apartment.setApartmentNum(aptNumTextField.getText());
         apartment.setSquareFeet(Integer.parseInt(squareFeetTextField.getText()));
@@ -145,18 +147,22 @@ public class ApartmentController {
 //        int selectedTenantIndex = this.tenantComboBox.getSelectionModel().getSelectedIndex();
         apartment.setTenant(tenantComboBox.getSelectionModel().getSelectedItem());
 
-        this.aptComboBox.getItems().remove(aptIndex);
-        this.aptComboBox.getItems().add(aptIndex, apartment);
-        this.aptComboBox.getSelectionModel().select(aptIndex);
+        int selectedAptIndex = this.aptComboBox.getSelectionModel().getSelectedIndex();
+        this.aptComboBox.getItems().remove( selectedAptIndex);
+        this.aptComboBox.getItems().add( selectedAptIndex, apartment);
+        this.aptComboBox.getSelectionModel().select( selectedAptIndex);
     }
 
     @FXML
     private void viewInvoiceDlgBtn_Clicked(ActionEvent actionEvent) {
-        int selectedIndex = aptComboBox.getSelectionModel().getSelectedIndex();
+//        int selectedIndex = aptComboBox.getSelectionModel().getSelectedIndex();
+//
+//
+//        if (selectedIndex >= 0) {
 
+        Apartment apartment = aptComboBox.getSelectionModel().getSelectedItem();
+        if(apartment != null) {
 
-        if (selectedIndex >= 0) {
-            Apartment apartment = apartments.get(selectedIndex);
             ArrayList<Invoice> invoices = apartment.getInvoices();
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InvoiceView.fxml"));
@@ -175,15 +181,21 @@ public class ApartmentController {
                 e.printStackTrace();
             }
         }
-
-
-//        private void aptComboBox_ItemSelected (ActionEvent actionEvent){
-//            selectedIndex = aptComboBox.getSelectionModel().getSelectedIndex();
-//            if (selectedIndex >= 0) {
-//                displayApartments(apartments.get(selectedIndex));
-//            }
-//        }
-
-
     }
+
+
+
+        private void aptComboBox_ItemSelected (ActionEvent actionEvent) {
+            Apartment apartment = aptComboBox.getSelectionModel().getSelectedItem();
+            if(apartment != null) {
+
+//                ArrayList<Invoice> invoices = apartment.getInvoices();
+                this.displayApartments(apartment);
+            }
+        }
 }
+
+
+
+
+
