@@ -1,14 +1,18 @@
 package domain;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Invoice {
     private int invoiceId;
     private int status;
-    private GDate invoiceDate;
-    private GDate dueDate;
+    private LocalDateTime invoiceDate;
+    private LocalDateTime dueDate;
 //    private ArrayList<LineItem> lineItems;
     private ArrayList<LineItem> lineItems = new ArrayList<LineItem>();
+    private Apartment apartment = null;
 
     /**
      *
@@ -16,10 +20,12 @@ public class Invoice {
      * @param invoiceDate
      * @param dueDate
      */
-    public Invoice(int status, GDate invoiceDate, GDate dueDate) {
+    public Invoice(int status, LocalDateTime invoiceDate, LocalDateTime dueDate, Apartment apartment) {
         this.status = status;
-        this.invoiceDate = new GDate(invoiceDate);
-        this.dueDate = new GDate(dueDate);
+        this.invoiceDate = invoiceDate;
+        this.dueDate = dueDate;
+        this.apartment = apartment;
+
     }
 
     /**
@@ -30,6 +36,7 @@ public class Invoice {
         this.status = invoice.status;
         this.invoiceDate = invoice.invoiceDate;
         this.dueDate = invoice.dueDate;
+        this.apartment = invoice.apartment;
     }
 
     public Invoice copy() {
@@ -87,11 +94,11 @@ public class Invoice {
         return status;
     }
 
-    public GDate getInvoiceDate() {
-        return invoiceDate.copy();
+    public LocalDateTime getInvoiceDate() {
+        return invoiceDate;
     }
 
-    public GDate getDueDate() { return dueDate.copy(); }
+    public LocalDateTime getDueDate() { return dueDate; }
 
     public ArrayList<LineItem> getLineItems() {return lineItems;}
 
@@ -107,11 +114,12 @@ public class Invoice {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         return "Invoice{" +
                 "invoiceId=" + invoiceId +
                 ", status=" + status +
-                ", invoiceDate=" + invoiceDate +
-                ", dueDate=" + dueDate +
+                ", invoiceDate=" + invoiceDate.format(formatter) +
+                ", dueDate=" + dueDate.format(formatter) +
                 '}';
     }
 
@@ -121,15 +129,43 @@ public class Invoice {
                 ", invoiceDate=" + invoiceDate;
     }
 
-    private void setStatus(int status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    private void setInvoiceDate(GDate invoiceDate) {
-        this.invoiceDate = invoiceDate.copy();
+    public void setInvoiceDate(LocalDateTime invoiceDate) {
+        this.invoiceDate = invoiceDate;
     }
 
-    private void setDueDate(GDate dueDate) {
-        this.dueDate = dueDate.copy();
+    private void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Invoice invoice = (Invoice) o;
+        return getInvoiceId() == invoice.getInvoiceId() &&
+                getStatus() == invoice.getStatus() &&
+                this.invoiceDate.equals(invoice.invoiceDate) &&
+                Objects.equals(getDueDate(), invoice.getDueDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getInvoiceId(), getStatus(), getInvoiceDate(), getDueDate());
+    }
+
+    private void setStatus() {
+    }
+
+    private Apartment getApartment() {
+        return this.apartment;
+    }
+
+//    public Invoice copy() {
+//        return new Invoice(this);
+//    }
+
 }
