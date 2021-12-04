@@ -28,8 +28,12 @@ public class Invoice {
      */
     public Invoice(Invoice invoice) {
         this.status = invoice.status;
-        this.invoiceDate = invoice.invoiceDate;
-        this.dueDate = invoice.dueDate;
+        this.invoiceDate = new GDate(invoice.invoiceDate);
+        this.dueDate = new GDate(invoice.dueDate);
+
+        for(LineItem item : invoice.lineItems){
+            this.lineItems.add(item.copy());
+        }
     }
 
     public Invoice copy() {
@@ -64,9 +68,13 @@ public class Invoice {
 
     public LineItem removeLineItem(LineItem lineItem) {
         LineItem removedLineItem = null;
+
         int index = this.lineItems.indexOf(lineItem);
-        removedLineItem = this.lineItems.get(index).copy();
-        this.lineItems.remove(removedLineItem);
+        if(index != -1) {
+            removedLineItem = this.lineItems.get(index).copy();
+            this.lineItems.remove(removedLineItem);
+        }
+
         return removedLineItem;
     }
 
@@ -101,7 +109,7 @@ public class Invoice {
             lineItem.copy();
         }
         return item;
-    } //what?
+    }
 
     public Invoice getInvoice(Invoice invoice) {return invoice;}
 

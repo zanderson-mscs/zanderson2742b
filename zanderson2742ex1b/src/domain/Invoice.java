@@ -1,5 +1,6 @@
 package domain;
 
+import javax.sound.sampled.Line;
 import java.util.ArrayList;
 
 public class Invoice {
@@ -7,7 +8,7 @@ public class Invoice {
     private int status;
     private GDate invoiceDate;
     private GDate dueDate;
-    private ArrayList<LineItem> lineItems;
+    private ArrayList<LineItem> lineItems = new ArrayList<LineItem>();
 
     /**
      *
@@ -27,8 +28,8 @@ public class Invoice {
      */
     public Invoice(Invoice invoice) {
         this.status = invoice.status;
-        this.invoiceDate = invoice.invoiceDate;
-        this.dueDate = invoice.dueDate;
+        this.invoiceDate = new GDate(invoice.invoiceDate);
+        this.dueDate = new GDate(invoice.dueDate );
     }
 
     public Invoice copy() {

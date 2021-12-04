@@ -87,7 +87,7 @@ void removeLineItem() {
     LineItem lineItem1 = new LineItem(1.0, "description1");
 
     // test Invoice.removeLineItem(int index)
-    this.invoice1.addLineItem(lineItem1); //doesn't work and throws the rest off
+    this.invoice1.addLineItem(lineItem1);
     LineItem removedLineItem = this.invoice1.removeLineItem(0);
     assertEquals(lineItem1, removedLineItem);
     assertFalse(lineItem1 == removedLineItem);

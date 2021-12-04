@@ -14,6 +14,7 @@ public class Invoice {
     private ArrayList<LineItem> lineItems = new ArrayList<LineItem>();
     private Apartment apartment = null;
 
+
     /**
      *
      * @param status
@@ -71,9 +72,13 @@ public class Invoice {
 
     public LineItem removeLineItem(LineItem lineItem) {
         LineItem removedLineItem = null;
+
         int index = this.lineItems.indexOf(lineItem);
-        removedLineItem = this.lineItems.get(index).copy();
-        this.lineItems.remove(removedLineItem);
+        if(index != -1) {
+            removedLineItem = this.lineItems.get(index).copy();
+            this.lineItems.remove(removedLineItem);
+        }
+
         return removedLineItem;
     }
 
@@ -108,7 +113,7 @@ public class Invoice {
             lineItem.copy();
         }
         return item;
-    } //what?
+    } //Needs Fixing
 
     public Invoice getInvoice(Invoice invoice) {return invoice;}
 
