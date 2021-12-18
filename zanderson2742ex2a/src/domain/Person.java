@@ -5,8 +5,8 @@ import java.util.Objects;
 
 public class Person {
     private int personId;
-    protected String firstName;
-    protected String lastName;
+    private String firstName;
+    private String lastName;
     private String userName;
     private LocalDateTime updated;
 
